@@ -197,7 +197,7 @@ class Renderbuttons(Panel):
 
 #Operators /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    #DuBlast Operator
+#DuBlast Operator
 
 class DUBLAST_OT_playblast( bpy.types.Operator ):
     """Renders and plays an animation playblast."""
