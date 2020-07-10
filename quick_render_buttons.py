@@ -51,7 +51,9 @@ from bpy.props import (IntProperty,
 class DUBLAST_settings( bpy.types.PropertyGroup ):
     """Playblast settings for a scene."""
 
+    # DuBlast has this set to false, but since the button for this operator is not part of a viewport, it should always render the active camera instead.
     use_camera: bpy.props.BoolProperty( name= "Use scene camera", description= "Renders using either the scene camera or the current viewport.", default= True)
+
 
     resolution_percentage: bpy.props.FloatProperty( name= "Resolution %", description= "Overrides the rendering resolution percentage for the playblast", default = 25.0, min=0.0, max= 100.0, precision=0, subtype='PERCENTAGE')
     
@@ -161,7 +163,7 @@ class DUBLAST_PT_playblast_settings(bpy.types.Panel):
 
         b.prop( playblast_settings, "use_stamp" )
 
-#Camera Manager Button UI (Modified)
+#Camera Manager Button UI (I modified the appearence of the button, removed the "RENDER_ANIMATION" switch and added rows for the Animation and Playblast buttons)
 
 class Renderbuttons(Panel):
     bl_space_type  = "PROPERTIES"
