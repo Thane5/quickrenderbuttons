@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Quick Render Buttons",
     "author": "Thane5",
-    "version": (0, 0, 2),
+    "version": (1, 0, 0),
     "blender": (3, 0, 0),
     "location": "PROPERTIES WINDOW > Render > UI > Render Tab",
     "description": "Render buttons in the style of Blender 2.7 and earlier",
@@ -29,10 +29,10 @@ bl_info = {
     "category": "Interface",
     }
 
+
 import bpy
 import os
 
-from bl_ui.utils import PresetPanel
 
 from bpy.utils import register_class, unregister_class
 
@@ -40,25 +40,9 @@ from bpy.types import (
     Operator,
     Panel,Scene, PropertyGroup,Object,Menu, Panel, UIList
 )
-from bpy.props import (IntProperty,
 
-                       PointerProperty,
-                       )
 
-#SETTINGS /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#Camera Manager settings
-
-class Renderbuttons_Settings(PropertyGroup):
-
-    switchStillAnim_prop : bpy.props.BoolProperty(
-        name="Animation",
-        description="Activate Animation Rendering",
-        default = False)
-
-#UI Stuff /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#Camera Manager Button UI (I modified the appearence of the button, removed the "RENDER_ANIMATION" switch and added rows for the Animation and Playblast buttons)
+# UI BUTTONS /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Renderbuttons(Panel):
     bl_space_type  = "PROPERTIES"
@@ -68,6 +52,7 @@ class Renderbuttons(Panel):
     bl_idname      = "QuickRenderButtons"
     bl_options     = {'HIDE_HEADER'}
 
+
     # Check if the addon "DuBlast"  is installed
     def isDuBlastEnabled(self):
         addons = bpy.context.preferences.addons
@@ -76,6 +61,8 @@ class Renderbuttons(Panel):
                 return True
         return False
 
+
+    # Add the Buttons to the Render Panel
     def draw(self, context):
         scene  = context.scene
         rd     = context.scene.render
@@ -95,85 +82,29 @@ class Renderbuttons(Panel):
         else:
             row.operator("render.render", text="Render", icon='RENDER_STILL')
             row.operator("render.render", text="Animation", icon='RENDER_ANIMATION').animation = True
-            #row.operator("render.playblast", text="Playblast", icon='PLAY')
-
+        
+        
+        # Only Add the Playblast Button if "DuBlast" is installed
         if self.isDuBlastEnabled():
             row.operator("render.playblast", text="Playblast", icon='PLAY')
             
 
-#Operators /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+# REGISTER THINGS //////////////////////////////////////////////////////////////////////////////////////
 
-
-def menu_func(self, context):
-    self.layout.separator()
-    self.layout.operator('render.playblast', icon= 'FILE_MOVIE')
-
-# classes = (
-#     DUBLAST_PT_settings,
-#     DUBLAST_PT_playblast_settings,
-#     DUBLAST_OT_playblast,
-# )
-
-#addon_keymaps = []
-
-
-#Classes /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-classes = (Renderbuttons_Settings,
-            Renderbuttons,
+classes = (Renderbuttons,
             )
-    
-#addon_keymaps = []
+
 
 def register():
     for i in classes:
         register_class(i)
         
-#    register_class(Renderbuttons)
-#    Scene.RBTab_Settings = PointerProperty(type=Renderbuttons_Settings)
-
-
-    Scene.RBTab_Settings = PointerProperty(type=Renderbuttons_Settings)
-    
-#     # New playblast attribute in the scenes
-#     if not hasattr( bpy.types.Scene, 'playblast' ):
-#         bpy.types.Scene.playblast = bpy.props.PointerProperty( type=DUBLAST_PT_settings )
-
-#     # menus
-#     bpy.types.VIEW3D_MT_view.append(menu_func)
-
-#     # keymaps
-#     kc = bpy.context.window_manager.keyconfigs.addon
-#     if kc:
-#         km = kc.keymaps.new(name='Playblast', space_type='VIEW_3D')
-#         kmi = km.keymap_items.new('render.playblast', 'RET', 'PRESS', ctrl=True)
-#         addon_keymaps.append((km, kmi))
-
-
 
 def unregister():
     for i in classes:
         unregister_class(i)
         
-#    unregister_class(Renderbuttons)
-    del Scene.RBTab_Settings
-    
-
-
-
- 
-    # menu
-    # bpy.types.VIEW3D_MT_view.remove(menu_func)
-
-#     # keymaps
-#     for km, kmi in addon_keymaps:
-#         km.keymap_items.remove(kmi)
-#     addon_keymaps.clear()
-
-#     # attributes
-#     del bpy.types.Scene.playblast
-
 
 if __name__ == "__main__":
     try:
