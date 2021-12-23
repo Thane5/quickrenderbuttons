@@ -6,4 +6,4 @@ It adds three Buttons to the "Properties -> Render" tab.
 The third button will only be visible if DuBlast is installed (https://github.com/Rainbox-dev/DuBLF_DuBlast) and starts rendering and playing a playblast video (DuBlast saves the video file to your output directory).
 
 
-![Screenshot](https://i.imgur.com/KYdP3Qd.png)
+![Screenshot](https://i.imgur.com/u1SSore.png)
