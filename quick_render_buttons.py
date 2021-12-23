@@ -31,6 +31,7 @@ bl_info = {
 
 import bpy
 import os
+
 from bl_ui.utils import PresetPanel
 
 from bpy.utils import register_class, unregister_class
@@ -48,7 +49,7 @@ from bpy.props import (IntProperty,
 
 #DuBlast Settings
 
-class DUBLAST_settings( bpy.types.PropertyGroup ):
+class DUBLAST_PT_settings( bpy.types.PropertyGroup ):
     """Playblast settings for a scene."""
 
     # DuBlast has this set to false, but since the button for this operator is not part of a viewport, it should always render the active camera instead.
@@ -341,7 +342,7 @@ def menu_func(self, context):
     self.layout.operator('render.playblast', icon= 'FILE_MOVIE')
 
 classes = (
-    DUBLAST_settings,
+    DUBLAST_PT_settings,
     DUBLAST_PT_playblast_settings,
     DUBLAST_OT_playblast,
 )
@@ -353,7 +354,7 @@ addon_keymaps = []
 
 classes = (Renderbuttons_Settings,
             Renderbuttons,
-            DUBLAST_settings,
+            DUBLAST_PT_settings,
             DUBLAST_PT_playblast_settings,
             DUBLAST_OT_playblast,
             )
@@ -368,7 +369,7 @@ def register():
 
     # New playblast attribute in the scenes
     if not hasattr( bpy.types.Scene, 'playblast' ):
-        bpy.types.Scene.playblast = bpy.props.PointerProperty( type=DUBLAST_settings )
+        bpy.types.Scene.playblast = bpy.props.PointerProperty( type=DUBLAST_PT_settings )
 
     # menus
     bpy.types.VIEW3D_MT_view.append(menu_func)
