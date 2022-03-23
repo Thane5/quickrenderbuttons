@@ -49,7 +49,7 @@ class Renderbuttons(Panel):
     bl_region_type = "WINDOW"
     bl_context     = "render"
     bl_label       = "Interface"
-    bl_idname      = "QuickRenderButtons"
+    bl_idname      = "QUICKRENDERBUTTONS_PT_buttons"
     bl_options     = {'HIDE_HEADER'}
 
 
